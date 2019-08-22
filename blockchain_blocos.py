@@ -22,6 +22,8 @@ class Blockchain(object):
             'merkleRoot': 0,
             'previousHash': self.generateHash(previousHash)
         }
+        if len(self.chain) == 0:
+            bloco['previousHash'] = 0
         self.transactions = []
         self.chain.append(bloco)
         return bloco
@@ -33,7 +35,7 @@ class Blockchain(object):
 
     def printChain(self):
         # Implemente aqui um método para imprimir de maneira verbosa e intuitiva o blockchain atual.
-        pass
+        print(self.chain)
 
 # Teste
 blockchain = Blockchain()

@@ -11,20 +11,29 @@ class Blockchain(object):
     def createGenesisBlock(self):
         # Implemente aqui o método para gerar o bloco Genesis, invocado no construtor da classe,
         # chamando o método createBlock() previamente implementado.
-        self.createBlock(previousHash=0)        
+        self.createBlock()
     def createBlock(self, nonce=0, previousHash=None):
         # Implemente aqui o método para retornar um bloco (formato de dicionário)
         # Lembre que o hash do bloco anterior é o hash na verdade do CABEÇALHO do bloco anterior.
+
         bloco = {
             'index': len(self.chain)+1,
             'timestamp': time(),
             'nonce': 0,
             'merkleRoot': '0000000000000000000000000000000000000000000000000000000000000000',
-            'previousHash': self.generateHash(previousHash)
+            'previousHash': 0,
+            'hashAtual': 0,
+            'transactions': []
         }
+        self.activeBlock = self.chain[len(self.chain)].copy()
+        self.activeBlock.pop('transactions')
+        bloco['hashAtual'] = self.generateHash(self.activeBlock)
         if len(self.chain) == 0:
             bloco['previousHash'] = '0000000000000000000000000000000000000000000000000000000000000000'
-        self.transactions = []
+        else:
+            self.prevBlockCopy = self.chain[len(self.chain) - 1].copy()
+            self.prevBlockCopy.pop('transactions')
+            bloco['previousHash'] = self.generateHash(self.prevBlockCopy)
         self.chain.append(bloco)
         return bloco
 

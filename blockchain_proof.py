@@ -37,18 +37,16 @@ class Blockchain(object):
         return block
 
     def mineProofOfWork(self, prevBlock):
-        prevBlock['nonce'] = 0;
-        hashAtual = self.getBlockID(prevBlock);
-        while not hashAtual.startswith('0' * DIFFICULTY):
+        prevBlock['nonce'] = 0
+        while True:
+            if(self.isValidProof(prevBlock, prevBlock['nonce'])):
+                return True
             prevBlock['nonce'] += 1
-            hashAtual = self.getBlockID(prevBlock)
-        return hashAtual
 
 
 
     @staticmethod
     def isValidProof(block, nonce):
-        block['nonce'] = nonce
         blocoAtual = Blockchain.getBlockID(block)
         if blocoAtual.startswith('0' * DIFFICULTY):
             return True
